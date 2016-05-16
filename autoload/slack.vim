@@ -96,7 +96,10 @@ function! s:ConvertText(source_file) "{{{
         $line =~ s/<@(\w+?)>/"@".$users{$1}/e;
         $line =~ s#\\/#/#g;
         my $t = localtime();
-        $line =~ s/^.*"ts"\: "(\d+)\.\d+"/$t = Time::Piece->strptime($1, '%s') and $t = $t + ONE_HOUR * 9 and $t->strftime("%Y-%m-%d %H:%M:%S")."\n"/e;
+
+#        $line =~ s/^.*"ts"\: "(\d+)\.\d+"/$t = Time::Piece->strptime($1, '%s') and $t = $t + ONE_HOUR * 9 and $t->strftime("%Y-%m-%d %H:%M:%S")."\n"/e;
+        $line =~ s/^.*"ts"\: "(\d+)\.\d+"/$t = Time::Piece->strptime($1, '%s') and $t and $t->strftime("%Y-%m-%d %H:%M:%S")."\n"/e;
+
         print $wr encode("utf-8",$line);
     }
     close $wr;
